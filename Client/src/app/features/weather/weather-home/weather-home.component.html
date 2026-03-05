@@ -1,0 +1,83 @@
+<div class="weather-app" [ngClass]="backgroundClass">
+
+  <!-- Overlay de gradiente -->
+  <div class="overlay"></div>
+
+  <div class="content">
+
+    <!-- ── Header / Búsqueda ─────────────────────────────────── -->
+    <header class="header">
+      <h1 class="app-title">
+        <mat-icon>wb_sunny</mat-icon>
+        WeatherApp
+      </h1>
+
+      <div class="search-wrap">
+        <div class="search-box">
+          <mat-icon class="search-icon">search</mat-icon>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Buscar ciudad..."
+            [formControl]="searchControl"
+            (keyup.enter)="onEnter()"
+            (blur)="hideSuggestions()"
+            autocomplete="off"/>
+          <button class="search-btn" (click)="onSearch()">Buscar</button>
+        </div>
+
+        <!-- Sugerencias -->
+        <div class="suggestions" *ngIf="showSuggestions">
+          <div *ngFor="let city of suggestions"
+            class="suggestion-item"
+            (mousedown)="selectCity(city)">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ city.label }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="geo-btn" (click)="useMyLocation()" [disabled]="loadingGeo" matTooltip="Usar mi ubicación">
+        <mat-spinner *ngIf="loadingGeo" diameter="18"></mat-spinner>
+        <mat-icon *ngIf="!loadingGeo">my_location</mat-icon>
+      </button>
+    </header>
+
+    <!-- ── Loading ───────────────────────────────────────────── -->
+    <div *ngIf="loading" class="loading-container">
+      <mat-spinner diameter="48" color="accent"></mat-spinner>
+      <p>Cargando clima...</p>
+    </div>
+
+    <!-- ── Estado vacío ──────────────────────────────────────── -->
+    <div *ngIf="!loading && !current" class="empty-state">
+      <mat-icon class="empty-icon">cloud_queue</mat-icon>
+      <h2>¿Cómo está el clima hoy?</h2>
+      <p>Busca una ciudad o usa tu ubicación actual</p>
+    </div>
+
+    <!-- ── Clima actual ──────────────────────────────────────── -->
+    <ng-container *ngIf="!loading && current">
+      <app-weather-card
+        [current]="current"
+        [formatTime]="formatTime.bind(this)"
+        [iconUrl]="iconUrl.bind(this)"
+        [windDirection]="windDirection.bind(this)">
+      </app-weather-card>
+
+      <!-- ── Pronóstico 5 días ─────────────────────────────── -->
+      <div class="forecast-section" *ngIf="forecast.length > 0">
+        <h3 class="forecast-title">Pronóstico 5 días</h3>
+        <div class="forecast-grid">
+          <app-forecast-card
+            *ngFor="let day of forecast"
+            [day]="day"
+            [formatDay]="formatDay.bind(this)"
+            [iconUrl]="iconUrl.bind(this)">
+          </app-forecast-card>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

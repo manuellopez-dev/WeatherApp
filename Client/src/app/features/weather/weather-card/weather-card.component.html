@@ -1,0 +1,69 @@
+<div class="weather-card">
+
+  <!-- Ciudad y país -->
+  <div class="city-header">
+    <div>
+      <h2 class="city-name">{{ current.city }}, {{ current.country }}</h2>
+      <p class="description">{{ current.description | titlecase }}</p>
+    </div>
+    <img class="weather-icon" [src]="iconUrl(current.icon)" [alt]="current.condition"/>
+  </div>
+
+  <!-- Temperatura principal -->
+  <div class="temp-main">
+    <span class="temp-value">{{ current.temperature }}°</span>
+    <div class="temp-range">
+      <span>↑ {{ current.tempMax }}°</span>
+      <span>↓ {{ current.tempMin }}°</span>
+    </div>
+  </div>
+
+  <p class="feels-like">Sensación térmica {{ current.feelsLike }}°C</p>
+
+  <!-- Detalles -->
+  <div class="details-grid">
+    <div class="detail-item">
+      <mat-icon>water_drop</mat-icon>
+      <div>
+        <span class="detail-label">Humedad</span>
+        <span class="detail-value">{{ current.humidity }}%</span>
+      </div>
+    </div>
+    <div class="detail-item">
+      <mat-icon>air</mat-icon>
+      <div>
+        <span class="detail-label">Viento</span>
+        <span class="detail-value">{{ current.windSpeed }} m/s {{ windDirection(current.windDeg) }}</span>
+      </div>
+    </div>
+    <div class="detail-item">
+      <mat-icon>visibility</mat-icon>
+      <div>
+        <span class="detail-label">Visibilidad</span>
+        <span class="detail-value">{{ (current.visibility / 1000).toFixed(1) }} km</span>
+      </div>
+    </div>
+    <div class="detail-item">
+      <mat-icon>compress</mat-icon>
+      <div>
+        <span class="detail-label">Presión</span>
+        <span class="detail-value">{{ current.pressure }} hPa</span>
+      </div>
+    </div>
+    <div class="detail-item">
+      <mat-icon>wb_twilight</mat-icon>
+      <div>
+        <span class="detail-label">Amanecer</span>
+        <span class="detail-value">{{ formatTime(current.sunrise, current.timezone) }}</span>
+      </div>
+    </div>
+    <div class="detail-item">
+      <mat-icon>nights_stay</mat-icon>
+      <div>
+        <span class="detail-label">Atardecer</span>
+        <span class="detail-value">{{ formatTime(current.sunset, current.timezone) }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>

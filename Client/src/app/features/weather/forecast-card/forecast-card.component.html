@@ -1,0 +1,13 @@
+<div class="forecast-card">
+  <span class="forecast-day">{{ formatDay(day.date) }}</span>
+  <img class="forecast-icon" [src]="iconUrl(day.icon)" [alt]="day.condition"/>
+  <span class="forecast-desc">{{ day.description | titlecase }}</span>
+  <div class="forecast-temps">
+    <span class="temp-max">{{ day.tempMax }}°</span>
+    <span class="temp-min">{{ day.tempMin }}°</span>
+  </div>
+  <div class="forecast-detail">
+    <mat-icon>water_drop</mat-icon>
+    <span>{{ day.humidity }}%</span>
+  </div>
+</div>
